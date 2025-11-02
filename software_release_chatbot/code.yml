@@ -1,0 +1,33 @@
+app:
+  title: "CLI-Style Chatbot (Semantic PDF Search)"
+  pdf_dir: 'C:\AI_Hackathon_2025\HackerEarth\Developer_Track\files'
+  index_dir: 'C:\AI_Hackathon_2025\HackerEarth\Developer_Track\indexes'
+  max_results: 5
+  score_threshold: 0.10
+  recursive_prompt_on_nohit: true
+
+retrieval:
+  chunk_size: 1000           # characters per chunk
+  chunk_overlap: 200         # overlap for better context continuity
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  faiss_index_type: "IndexFlatIP"   # inner-product (use normalized vectors)
+
+scripts:
+  base_dir: "scripts"
+  config_results_script: "get_config_results.sh"
+  fetch_logs_script: "fetch_logs.sh"
+
+email:
+  maintainer: "maintainer@example.com"
+  smtp_host: "smtp.example.com"
+  smtp_port: 587
+  smtp_user: "user@example.com"
+  smtp_pass: "password"
+  sender: "user@example.com"
+
+security:
+  # If later using a vector DB (Qdrant/Weaviate/Milvus), keep auth/secrets here or in env/KeyVault
+  enable_pii_masking: false
+
+logging:
+  level: "INFO"
