@@ -27,6 +27,10 @@ MAX_RESULTS = CFG["app"]["max_results"]
 
 SCRIPTS_DIR = CFG["scripts"]["base_dir"]
 
+SCRIPTS_DIR = os.path.join(cfg_file, SCRIPTS_DIR)
+PDF_DIR = os.path.join(cfg_file, PDF_DIR)
+INDEX_DIR = os.path.join(cfg_file, INDEX_DIR)
+
 # Maintainer email config
 MAINTAINER_EMAIL = CFG["email"]["maintainer"]
 SMTP_HOST = CFG["email"]["smtp_host"]
