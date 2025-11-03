@@ -16,7 +16,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 # =========================
 # Configuration
 # =========================
-with open("code.yml", "r") as f:
+cfg_file = os.path.dirname(os.path.abspath(__file__))
+cfg_path = os.path.join(cfg_file, "code.yml")
+with open(cfg_path, "r") as f:
     CFG = yaml.safe_load(f)
 
 PDF_DIR = CFG["app"]["pdf_dir"]
