@@ -313,7 +313,7 @@ st.markdown(
 )
 
 st.title("Software Release Queries Chatbot")
-st.caption("Type your question. Type 'exit' to quit. Try: 'configuration results for build 1234' or 'fetch logs for build 1234 on config LTE'")
+st.caption("Type your question. Type 'exit' to quit. Try: 'What Configs are covered as part of Release?' or 'What is the various Status of a Build?' or 'Get Log for Config1 of Build 1.0.1?'")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
