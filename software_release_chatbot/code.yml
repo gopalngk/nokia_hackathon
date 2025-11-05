@@ -18,12 +18,12 @@ scripts:
   fetch_logs_script: "fetch_logs.sh"
 
 email:
-  maintainer: "maintainer@example.com"
-  smtp_host: "smtp.example.com"
-  smtp_port: 587
-  smtp_user: "user@example.com"
-  smtp_pass: "password"
-  sender: "user@example.com"
+  maintainer: "gopalamail4everything+smtp@gmail.com"
+  smtp_host: "smtp.gmail.com"
+  smtp_port: 465
+  smtp_user: "gopalamail4everything@gmail.com"
+  smtp_pass: "${SMTP_PASSWORD}"  # Set via environment variable
+  sender: "gopalamail4everything+githubreceive@gmail.com"
 
 security:
   # If later using a vector DB (Qdrant/Weaviate/Milvus), keep auth/secrets here or in env/KeyVault

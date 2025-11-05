@@ -1,4 +1,3 @@
-# app.py
 import os
 import re
 import uuid
@@ -12,14 +11,42 @@ from PyPDF2 import PdfReader
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+# Load environment variables from .env file if it exists
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # python-dotenv not installed, skip loading .env file
+    pass
+
 
 # =========================
 # Configuration
 # =========================
+def load_config_with_env_vars(config_path: str) -> dict:
+    """Load YAML config and substitute environment variables or Streamlit secrets."""
+    with open(config_path, "r") as f:
+        config_content = f.read()
+    
+    # Replace ${VAR_NAME} with environment variable values or Streamlit secrets
+    def replace_env_var(match):
+        var_name = match.group(1)
+        
+        # Try Streamlit secrets first (for Streamlit Cloud deployment)
+        try:
+            return st.secrets[var_name]
+        except (KeyError, AttributeError):
+            pass
+        
+        # Fall back to environment variables
+        return os.getenv(var_name, match.group(0))  # Return original if not found
+    
+    config_content = re.sub(r'\$\{([^}]+)\}', replace_env_var, config_content)
+    return yaml.safe_load(config_content)
+
 cfg_file = os.path.dirname(os.path.abspath(__file__))
 cfg_path = os.path.join(cfg_file, "code.yml")
-with open(cfg_path, "r") as f:
-    CFG = yaml.safe_load(f)
+CFG = load_config_with_env_vars(cfg_path)
 
 PDF_DIR = CFG["app"]["pdf_dir"]
 INDEX_DIR = CFG["app"]["index_dir"]
@@ -241,9 +268,11 @@ def send_email(to_addr: str, subject: str, body: str) -> Tuple[bool, str]:
 
     try:
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as server:
+            print("Connecting to SMTP server...")
             server.starttls()
             if SMTP_USER and SMTP_PASS:
                 server.login(SMTP_USER, SMTP_PASS)
+                print("Logged in to SMTP server.")
             server.sendmail(SMTP_SENDER, [to_addr], msg.as_string())
         return True, reference_id
     except Exception as e:
